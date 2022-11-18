@@ -15,11 +15,29 @@
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
 }
 
-
+const robert = new Person('mary', 23)
+console.log(robert.toString());
+robert.eat('pizza');
+console.log(robert.stomach);
+robert.poop();
+console.log(robert.stomach);
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -36,10 +54,18 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+this.model = model ;
+this.milesPerGallon = milesPerGallon;
+this.tank = 0
+this.odometer = 0
 }
-
+Car.prototype.fill = function(gallons){
+  this.tank = this.tank+gallons;
+}
+Car.prototype.drive = function(distance){
+  this.odometer = this.odometer+distance
+}
 
 /*
   TASK 3
@@ -49,18 +75,26 @@ function Car() {
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+Person.call(this, name, age);
+this.favoriteToy = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`;
 }
 
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. There is the global principle, which are global objects that can be called with 'this', 
+  but is highly discouraged from being used.
+  2. Implicit binding is the most logical and common usage of 'this'.It's the this that is being used in the funct.
+  For an example of it, look at the initialization of the functions above. It's apparent it's calling on the parameters.
+  The this keyword itself is being used to bind 'this.x' to a specific parameter.
+  3. Since 'this' is all about context, just like in real life, 'New' simply changes the context.
+  4. Explicit binding is in the use of .call and .apply methods. From my understanding, apply is exactly like call.
 */
 
 ///////// END OF CHALLENGE /////////
